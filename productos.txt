@@ -1,0 +1,1 @@
+{"lastId":2,"list":[{"title":"Escuadra","price":123.45,"thumbnail":"urlToThumbnailEscuadra","id":1},{"title":"Regla","price":567.89,"thumbnail":"urlToThumbnailRegla","id":2}]}

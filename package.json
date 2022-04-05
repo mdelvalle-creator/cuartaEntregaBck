@@ -1,0 +1,14 @@
+{
+  "name": "tercera-entrega",
+  "version": "1.0.0",
+  "description": "Proyecto para la tercer entrega de backend coderhouse",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Maria Pia del Valle",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
