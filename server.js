@@ -24,22 +24,35 @@ router.post("/productos", async (request, response) => {
 
 // Get a specific product
 router.get("/productos/:id", async (request, response) => {
-  const results = await container.getById(request.params.id);
+  let results = await container.getById(parseInt(request.params.id,10));
+  if(!results){
+    results = {error: 'producto no encontrado'};
+  }
   response.json(results);
 });
 
 // Update a specific product
 router.put("/productos/:id", async (request, response) => {
-  const results = await container.update(request.params.id,request.body);
-  const index = Math.floor(Math.random() * results.length);
-  response.json(results[index]);
+  let results;
+  let product = await container.getById(parseInt(request.params.id,10));
+  if(!product){
+    results = {error: 'producto no encontrado'};
+  }else{
+    results = await container.update(parseInt(request.params.id,10),request.body);
+  }
+  response.json(results);
 });
 
 // Delete a specific product
 router.delete("/productos/:id", async (request, response) => {
-  const results = await container.deleteById(request.params.id);
-  const index = Math.floor(Math.random() * results.length);
-  response.json(results[index]);
+  let results;
+  let product = await container.getById(parseInt(request.params.id,10));
+  if(!product){
+    results = {error: 'producto no encontrado'};
+  }else{
+    await container.deleteById(parseInt(request.params.id,10),request.body);
+  }
+  response.json({mensaje: 'producto eliminado'});
 });
 
 app.use('/api', router);

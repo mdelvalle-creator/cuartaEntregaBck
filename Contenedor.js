@@ -17,7 +17,7 @@ class Contenedor {
             await this.loadFile();
         }
         const id = this.fileObject.lastId + 1;
-        this.fileObject.list[id] = {...objeto, id};
+        this.fileObject.list.push({...objeto, id});
         this.fileObject.lastId = id;
         await fs.promises.writeFile(this.nombreArchivo, JSON.stringify(this.fileObject))
             .then(() => {
@@ -30,7 +30,8 @@ class Contenedor {
         if(!this.fileObject){
             await this.loadFile();
         }
-        this.fileObject.list[id] = {...objeto};
+        this.fileObject.list = this.fileObject.list.filter(product => product.id !== id);
+        this.fileObject.list.push({...objeto});
         await fs.promises.writeFile(this.nombreArchivo, JSON.stringify(this.fileObject))
             .then(() => {
                 console.log('Actualizado Exitoso!');
@@ -42,19 +43,19 @@ class Contenedor {
         if(!this.fileObject){
             await this.loadFile();
         }
-        return this.fileObject.list[id];
+        return this.fileObject.list.find(product => product.id === id);
     }
     async getAll() {
         if(!this.fileObject){
             await this.loadFile();
         }
-        return Object.keys(this.fileObject.list).map(id => this.fileObject.list[id]);
+        return this.fileObject.list;
     }
     async deleteById(id) {
         if(!this.fileObject){
             await this.loadFile();
         }
-        delete this.fileObject.list[id];
+        this.fileObject.list = this.fileObject.list.filter(product => product.id !== id);
         await fs.promises.writeFile(this.nombreArchivo, JSON.stringify(this.fileObject))
             .then(() => console.log('Eliminado del item exitoso!'))
             .catch(err => console.log('Ocurrio un error al eliminar: ', err));
